@@ -14,7 +14,6 @@ CDMMenuWindow::CDMMenuWindow(const CDMKey & up, const CDMKey & down, const CDMKe
 	_startTime = std::chrono::high_resolution_clock::now();
 	cursorType = arrow;
 	_minItemToShow = 0;
-	SetBoundsType(BoundsType::RectangularDouble);
 }
 
 CDMMenuWindow::~CDMMenuWindow()

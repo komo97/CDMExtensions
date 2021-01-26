@@ -55,47 +55,10 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 	_lowerLeftBounds = CDMCreateSurface(0, 0, _halfWidth + 1, _halfHeight + 1);
 	_upperRightBounds = CDMCreateSurface(0, 0, _halfWidth + 1, _halfHeight + 1);
 	_lowerRightBounds = CDMCreateSurface(0, 0, _halfWidth + 1, _halfHeight + 1);
-	switch (_btype)
-	{
-	case CDMWindow::RectangularDouble:
-		CDMSetCharacters(&_upperLeftBounds, L'╔', L'░', L'═', L'║');
-		CDMSetCharacters(&_lowerLeftBounds, L'╚', L'░', L'═', L'║');
-		CDMSetCharacters(&_upperRightBounds, L'╗', L'░', L'═', L'║');
-		CDMSetCharacters(&_lowerRightBounds, L'╝', L'░', L'═', L'║');
-		break;
-	case CDMWindow::RectangularDoubleNoEdges:
-		CDMSetCharacters(&_upperLeftBounds, L' ', L'░', L'═', L'║');
-		CDMSetCharacters(&_lowerLeftBounds, L' ', L'░', L'═', L'║');
-		CDMSetCharacters(&_upperRightBounds, L' ', L'░', L'═', L'║');
-		CDMSetCharacters(&_lowerRightBounds, L' ', L'░', L'═', L'║');
-		break;
-	case CDMWindow::RectangularSimple:
-		CDMSetCharacters(&_upperLeftBounds, L'┏', L'░', L'━', L'┃');
-		CDMSetCharacters(&_lowerLeftBounds, L'┗', L'░', L'━', L'┃');
-		CDMSetCharacters(&_upperRightBounds, L'┓', L'░', L'━', L'┃');
-		CDMSetCharacters(&_lowerRightBounds, L'┛', L'░', L'━', L'┃');
-		break;
-	case CDMWindow::RoundedBox:
-		CDMSetCharacters(&_upperLeftBounds, L'╭', L'░', L'─', L'│');
-		CDMSetCharacters(&_lowerLeftBounds, L'╰', L'░', L'─', L'│');
-		CDMSetCharacters(&_upperRightBounds, L'╮', L'░', L'─', L'│');
-		CDMSetCharacters(&_lowerRightBounds, L'╯', L'░', L'─', L'│');
-		break;
-	case CDMWindow::Diagonal:
-		CDMSetCharacters(&_upperLeftBounds, L'╱', L'░', L'─', L'│');
-		CDMSetCharacters(&_lowerLeftBounds, L'╲', L'░', L'─', L'│');
-		CDMSetCharacters(&_upperRightBounds, L'╲', L'░', L'─', L'│');
-		CDMSetCharacters(&_lowerRightBounds, L'╱', L'░', L'─', L'│');
-		break;
-	case CDMWindow::TriangleEdge:
-		CDMSetCharacters(&_upperLeftBounds, L' ', L'░', L'█', L'█');
-		CDMSetCharacters(&_lowerLeftBounds, L' ', L'░', L'█', L'█');
-		CDMSetCharacters(&_upperRightBounds, L' ', L'░', L'█', L'█');
-		CDMSetCharacters(&_lowerRightBounds, L' ', L'░', L'█', L'█');
-		break;
-	default:
-		break;
-	}
+	CDMSetCharacters(&_upperLeftBounds, L'╔', 0, L'═', L'║');
+	CDMSetCharacters(&_lowerLeftBounds, L'╚', 0, L'═', L'║');
+	CDMSetCharacters(&_upperRightBounds, L'╗', 0, L'═', L'║');
+	CDMSetCharacters(&_lowerRightBounds, L'╝', 0, L'═', L'║');
 	CDMSetForegroundColor(&_upperLeftBounds, _bounds, _bounds, _bounds, _bounds);
 	CDMSetForegroundColor(&_lowerLeftBounds, _bounds, _bounds, _bounds, _bounds);
 	CDMSetForegroundColor(&_upperRightBounds, _bounds, _bounds, _bounds, _bounds);
@@ -108,13 +71,6 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 	{
 		for (int j = 0; j <= _halfWidth; ++j)
 		{
-			if (i <= _halfHeight && i >= 0 && j <= _halfWidth && j >= 0) //Fill
-			{
-				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set2);
-				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set2);
-				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set2);
-				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set2);
-			}
 			if (i == 0 && j == 0) //Upper left corner
 			{
 				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set1);
@@ -158,6 +114,13 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 			{
 				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set4);
 				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set4);
+			}
+			if (i < _halfHeight && i > 0 && j < _halfWidth && j > 0) //Fill
+			{
+				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set2);
 			}
 		}
 	}
@@ -258,11 +221,6 @@ void CDMWindow::SetTitle(std::wstring title)
 void CDMWindow::ShouldDrag(const bool & dragable)
 {
 	_shouldDrag = dragable;
-}
-
-void CDMWindow::SetBoundsType(const BoundsType & bounds)
-{
-	_btype = bounds;
 }
 
 void CDMWindow::PostSetup()

@@ -9,7 +9,8 @@ CDMTextInput::CDMTextInput(const CDMKey & closeKey, const size_t & maxInput, con
 	_caps = false;
 	inputType = type;
 	_blink = false;
-	cursorType = underlineCursor;
+	_canBlink = false;
+	_blinkTimer = 0;
 }
 
 void CDMTextInput::ReadInput(CDMEvent* const& events)
@@ -348,22 +349,29 @@ void CDMTextInput::DisplayText(CDMContext *& ctx, const CDMRect & displayArea, C
 	if (_isActive)
 	{
 		CDMPrintf(&ctx, 0, displayArea, let, bg, _text.data());
-		if (_blink && cursorType == CursorType::reverseCursor)
-			CDMPrintf(&ctx, 0, CDMRect{ displayArea.Left + (((SHORT)_cursor) % (displayArea.Right + 1)),
-				displayArea.Top + (((SHORT)_cursor - 1) / displayArea.Right), 1, 1 },
-				let, (CDMBackgroundColor)(bg | reverseColors), L"%c", _cursor < _text.size() ? _text.at(_cursor) : L'\0');
-
-		if (cursorType == CursorType::underlineCursor)
-			CDMPrintf(&ctx, 0, CDMRect{ displayArea.Left + (((SHORT)_cursor) % (displayArea.Right + 1)),
-				displayArea.Top + (((SHORT)_cursor - 1) / displayArea.Right), 1, 1 },
-				let, (CDMBackgroundColor)(bg | CDMExtraOptions::underscore), L"%c", _cursor < _text.size() ? _text.at(_cursor) : L'\0');
-		_blink ^= 1;
+		if (_canBlink && _blink)
+			CDMPrintf(&ctx, 0, CDMRect{ displayArea.Left + (((SHORT)_cursor) % displayArea.Right),
+				displayArea.Top + (((SHORT)_cursor) / displayArea.Right), 1, 1 },
+				let, (CDMBackgroundColor)(bg | reverseColors), L" ");
+		++_blinkTimer %= BLINKTIME;
+		if(!_blinkTimer)
+			_blink ^= 1;
 	}
 }
 
 bool CDMTextInput::IsActive() const
 {
 	return _isActive;
+}
+
+bool CDMTextInput::shouldBlink() const
+{
+	return _canBlink;
+}
+
+void CDMTextInput::canBlink(const bool & canBlink)
+{
+	_canBlink = canBlink;
 }
 
 std::wstring CDMTextInput::GetText() const

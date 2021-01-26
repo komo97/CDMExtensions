@@ -1,5 +1,9 @@
 #include "CDMButton.h"
 
+//Tienes una maquina expendedora y te tiene que devolver cambio,
+//en monedas de cuanto y si tiene disponibilidad de monedas y de preferencia no lo hagas en un arreglo
+//100, 25, 10, 5, 1 centavos. TAREA DE VLAD.
+//Permitir configuracion de monedas a la maquina.
 
 CDMButton::CDMButton(const std::wstring& name, ButtonPressCallback callback, void* parameter) : CDMWindow(), _parameter(parameter)
 {
@@ -7,7 +11,6 @@ CDMButton::CDMButton(const std::wstring& name, ButtonPressCallback callback, voi
 	_callback = callback;
 	_parameter = parameter;
 	_name = name;
-	SetBoundsType(BoundsType::RoundedBox);
 }
 
 CDMButton::~CDMButton()

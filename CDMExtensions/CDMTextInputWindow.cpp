@@ -5,7 +5,6 @@ CDMTextInputWindow::CDMTextInputWindow(const CDMKey & closeKey, const CDMTextInp
 {
 	_closeKey = closeKey;
 	_type = type;
-	SetBoundsType(BoundsType::RectangularDoubleNoEdges);
 }
 
 void CDMTextInputWindow::Update(CDMContext* & ctx)
@@ -19,7 +18,12 @@ void CDMTextInputWindow::Update(CDMContext* & ctx)
 		if (mousePos.X >= posX && mousePos.X <= _width - 1 + posX && mousePos.Y >= posY &&
 			mousePos.Y <= _height - 1 + posY &&
 			CDMGetKeyPressed(&ctx->events, CDMKey::mbleft))
+		{
 			CDMInputLocker::RequestPriority(this);
+			_inputArea->canBlink(true);
+		}
+		else
+			_inputArea->canBlink(false);
 	}
 	else
 	{

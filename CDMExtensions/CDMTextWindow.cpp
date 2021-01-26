@@ -69,7 +69,6 @@ CDMTextWindow::CDMTextWindow(const CDMKey& closeKey, const bool& autoScroll) : C
 	_closeKey = closeKey;
 	_autoScroll = autoScroll;
 	_speed = 1;
-	SetBoundsType(BoundsType::TriangleEdge);
 }
 
 

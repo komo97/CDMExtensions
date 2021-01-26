@@ -3,6 +3,8 @@
 #include "CDMObject.h"
 #include <string>
 
+#define BLINKTIME 16
+
 class CDMTextInput : public CDMObject
 {
 public:
@@ -14,17 +16,14 @@ public:
 		AcceptNewline = 0x010,
 		AcceptDecimal = 0x020,
 	}inputType;
-	enum CursorType
-	{
-		reverseCursor = 0,
-		underlineCursor = 0,
-	}cursorType;
 	CDMTextInput() = delete;
 	CDMTextInput(const CDMKey& closeKey, const size_t& maxInput, const InputType& type);
 	void ReadInput(CDMEvent* const& events);
 	void SetActive(const bool& status);
 	void DisplayText(CDMContext *& ctx, const CDMRect& displayArea, CDMLetterColor let, CDMBackgroundColor bg);
 	bool IsActive() const;
+	bool shouldBlink() const;
+	void canBlink(const bool& canBlink);
 	std::wstring GetText() const;
 	void SetText(const std::wstring& text);
 	~CDMTextInput();
@@ -36,5 +35,7 @@ private:
 			_cursor;
 	CDMKey _closeKey;
 	bool _blink;
+	bool _canBlink;
+	char _blinkTimer; 
 };
 
