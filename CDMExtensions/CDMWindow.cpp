@@ -71,6 +71,13 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 	{
 		for (int j = 0; j <= _halfWidth; ++j)
 		{
+			if (i <= _halfHeight && i >= 0 && j <= _halfWidth && j >= 0) //Fill
+			{
+				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set2);
+			}
 			if (i == 0 && j == 0) //Upper left corner
 			{
 				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set1);
@@ -114,13 +121,6 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 			{
 				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set4);
 				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set4);
-			}
-			if (i < _halfHeight && i > 0 && j < _halfWidth && j > 0) //Fill
-			{
-				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set2);
-				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set2);
-				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set2);
-				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set2);
 			}
 		}
 	}
