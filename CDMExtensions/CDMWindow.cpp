@@ -52,9 +52,9 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 	_halfHeight = _height / 2;
 	_halfWidth = _width / 2;
 	_upperLeftBounds = CDMCreateSurface(0, 0, _halfWidth + 1, _halfHeight + 1);
-	_lowerLeftBounds = CDMCreateSurface(0, 0, _halfWidth + 1, _halfHeight + 1);
-	_upperRightBounds = CDMCreateSurface(0, 0, _halfWidth + 1, _halfHeight + 1);
-	_lowerRightBounds = CDMCreateSurface(0, 0, _halfWidth + 1, _halfHeight + 1);
+	_lowerLeftBounds = CDMCreateSurface(0, 0, _halfWidth + 1, _halfHeight);
+	_upperRightBounds = CDMCreateSurface(0, 0, _halfWidth, _halfHeight + 1);
+	_lowerRightBounds = CDMCreateSurface(0, 0, _halfWidth, _halfHeight);
 	CDMSetCharacters(&_upperLeftBounds, L'╔', 0, L'═', L'║');
 	CDMSetCharacters(&_lowerLeftBounds, L'╚', 0, L'═', L'║');
 	CDMSetCharacters(&_upperRightBounds, L'╗', 0, L'═', L'║');
@@ -78,18 +78,6 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set2);
 				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set2);
 			}
-			if (i == 0 && j == 0) //Upper left corner
-			{
-				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set1);
-				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set4);
-				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set3);
-			}
-			else if (i == 0 && j == _halfWidth) //Upper right corner
-			{
-				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set1);
-				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set4);
-				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set3);
-			}
 			if (i == 0 && j < _halfWidth && j > 0) //Upper bar
 			{
 				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set3);
@@ -100,26 +88,38 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set4);
 				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set4);
 			}
+			if (i == _halfHeight && j <= _halfWidth && j >= 0) //Bottom bar
+			{
+				CDMSetPixel(&_lowerRightBounds, j, i - 1, CDMColorSets::Set3);
+				CDMSetPixel(&_lowerLeftBounds, j, i - 1, CDMColorSets::Set3);
+			}
+			if (i <= _halfHeight && i >= 0 && j == _halfWidth) //Right bar
+			{
+				CDMSetPixel(&_lowerRightBounds, j - 1, i, CDMColorSets::Set4);
+				CDMSetPixel(&_upperRightBounds, j - 1, i, CDMColorSets::Set4);
+			}
+			if (i == 0 && j == 0) //Upper left corner
+			{
+				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set1);
+				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set4);
+				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set3);
+			}
+			else if (i == 0 && j == _halfWidth) //Upper right corner
+			{
+				CDMSetPixel(&_upperRightBounds, j-1, i, CDMColorSets::Set1);
+				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set4);
+				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set3);
+			}
 			else if (i == _halfHeight && j == 0) //Lower left corner
 			{
-				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set1);
+				CDMSetPixel(&_lowerLeftBounds, j, i - 1, CDMColorSets::Set1);
 				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set3);
 				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set4);
 			}
 			else if (i == _halfHeight && j == _halfWidth)//Lower right corner
 			{
-				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set1);
+				CDMSetPixel(&_lowerRightBounds, j - 1, i - 1, CDMColorSets::Set1);
 				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set3);
-				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set4);
-			}
-			if (i == _halfHeight && j < _halfWidth && j > 0) //Bottom bar
-			{
-				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set3);
-				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set3);
-			}
-			if (i < _halfHeight && i > 0 && j == _halfWidth) //Right bar
-			{
-				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set4);
 				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set4);
 			}
 		}
