@@ -71,6 +71,7 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 	{
 		for (int j = 0; j <= _halfWidth; ++j)
 		{
+<<<<<<< HEAD
 			if (i <= _halfHeight && i >= 0 && j <= _halfWidth && j >= 0) //Fill
 			{
 				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set2);
@@ -98,6 +99,8 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 				CDMSetPixel(&_lowerRightBounds, j - 1, i, CDMColorSets::Set4);
 				CDMSetPixel(&_upperRightBounds, j - 1, i, CDMColorSets::Set4);
 			}
+=======
+>>>>>>> parent of 1c75b74... corregido bug con el fill
 			if (i == 0 && j == 0) //Upper left corner
 			{
 				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set1);
@@ -122,6 +125,26 @@ void CDMWindow::SetupWindow(const int & width, const int & height, const CDMLett
 				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set3);
 				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set4);
 			}
+<<<<<<< HEAD
+=======
+			if (i == _halfHeight && j < _halfWidth && j > 0) //Bottom bar
+			{
+				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set3);
+				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set3);
+			}
+			if (i < _halfHeight && i > 0 && j == _halfWidth) //Right bar
+			{
+				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set4);
+				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set4);
+			}
+			if (i < _halfHeight && i > 0 && j < _halfWidth && j > 0) //Fill
+			{
+				CDMSetPixel(&_upperLeftBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_lowerLeftBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_upperRightBounds, j, i, CDMColorSets::Set2);
+				CDMSetPixel(&_lowerRightBounds, j, i, CDMColorSets::Set2);
+			}
+>>>>>>> parent of 1c75b74... corregido bug con el fill
 		}
 	}
 	CDMPrepareSurface(&_upperLeftBounds);
